@@ -7,6 +7,7 @@ var body_parser = require('body-parser');
 
 /* importar o modulo do express-validator */
 var express_validator = require('express-validator');
+//const ejsLint = require('ejs-lint');
 
 /* iniciar o objeto do express*/
 var app = express();
