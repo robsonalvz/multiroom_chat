@@ -94,7 +94,9 @@
                     <div class="col-md-12">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Mensagem" id="mensagem">
+                            
                             <input type="hidden" value="<%=dadosForm.apelido%>" id="apelido">
+                            <input type="hidden" value="0" id="clienteAtualizado">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="button"id="enviar_mensagem">></button>
                             </span>
@@ -113,8 +115,14 @@
             $('#enviar_mensagem').click(function(){
                 socket.emit(
                         'msgParaServidor',
-                        {apelido:$('#apelido').val(),mensagem: $('#mensagem').val()}
+                        {
+                            apelido:$('#apelido').val(),
+                            mensagem: $('#mensagem').val(),
+                            clienteAtualizado: $('#clienteAtualizado').val()
+                        }
                     );
+                   // $('#mensagem').val("").
+                    $('#clienteAtualizado').val(1);
               });
             socket.on('msgParaCliente', function(data){
                 var html ='';
@@ -124,7 +132,18 @@
                 html+='</div>';
                 
                 $('#dialogos').append(html);
-            })
+                window.scrollTo(0,document.body.scrollHeight);
+            });
+            
+            socket.on('participantesParaCliente', function(data){
+                var html ='';
+                html+='<span class="participantes">';
+                    html+= '<img src="images/ico_usuario.png">';
+                    html+= data.apelido;
+                html+='</span>';
+                
+                $('#pessoas').append(html);
+            });
         </script>
 	</body>
 </html>
